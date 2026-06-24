@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<scenario>
+  <simulation rate="1000" time_multiplier="1.0"/>
+
+  <environment>
+    <ned latitude="10.85" longitude="106.77"/>
+    <ocean>
+      <water density="1000.0" jerlov="0.2"/>
+      <waves height="0"/>
+      <current type="uniform"><velocity xyz="0 0 0"/></current>
+    </ocean>
+    <atmosphere><sun azimuth="50.0" elevation="50.0"/></atmosphere>
+  </environment>
+
+  <materials> 
+    <material name="HullMat" density="550.0" restitution="0.1"/>
+  </materials>
+
+  <looks>
+    <look name="HullColor" rgb="0.8 0.4 0.4" roughness="0.5"/>
+  </looks>
+
+  <robot name="catamaran_usv" fixed="false" self_collisions="false">
+    <world_transform xyz="0 0 0" rpy="0 0 0"/>
+    
+    <base_link name="base_link" type="model">
+      <physical>
+        <mesh filename="meshes/demo_no12.obj" scale="1.0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/> 
+        <cg xyz="0 0 0" rpy="0 0 0"/>
+      </physical>
+      <material name="HullMat"/>
+      <look name="HullColor"/>
+      
+      <hydrodynamics>
+        <added_mass linear="5.0 5.0 5.0" angular="0.5 0.5 0.5"/>
+        <damping linear="0.5 12.0 15.0" quadratic="1 18.0 20.0"/>
+      </hydrodynamics>
+    </base_link>
+
+    <actuator name="thruster_port" type="thruster">
+      <link name="base_link"/>
+      <origin xyz="-0.281 0.1225 0.065 " rpy="0 0 0"/> 
+      <specs max_setpoint="600.0" inverted_setpoint="false" normalized_setpoint="false"/>
+      <propeller diameter="0.05" right="true">
+        <mesh filename="meshes/chanvit2lon.obj" scale="1"/>
+        <material name="HullMat"/>
+        <look name="HullColor"/>
+      </propeller>
+      <rotor_dynamics type="first_order">
+        <time_constant value="0.1"/>
+      </rotor_dynamics>
+      <thrust_model type="quadratic">
+        <thrust_coeff value="0.00001"/>
+      </thrust_model>
+      <ros_subscriber topic="/catamaran_usv/thruster_port/setpoint"/>
+    </actuator>
+
+    <actuator name="thruster_stbd" type="thruster">
+      <link name="base_link"/>
+      <origin xyz="-0.281 -0.1675 0.065" rpy="0 0 0"/> 
+      <specs max_setpoint="600.0" inverted_setpoint="false" normalized_setpoint="false"/>
+      <propeller diameter="0.05" right="true">
+        <mesh filename="meshes/chanvit3lon.obj" scale="1"/>
+        <material name="HullMat"/>
+        <look name="HullColor"/>
+      </propeller>
+      <rotor_dynamics type="first_order">
+        <time_constant value="0.1"/>
+      </rotor_dynamics>
+      <thrust_model type="quadratic">
+        <thrust_coeff value="0.00001"/>
+      </thrust_model>
+      <ros_subscriber topic="/catamaran_usv/thruster_stbd/setpoint"/>
+    </actuator>
+
+    <sensor name="gps" type="gps" rate="10.0">
+      <link name="base_link"/>
+      <origin xyz="0 0 -0.3" rpy="0 0 0"/>
+      <noise ned_position="0.1"/>
+      <ros_publisher topic="/catamaran_usv/gps"/>
+    </sensor>
+
+    <sensor name="imu" type="imu" rate="100.0">
+      <link name="base_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <noise angular_velocity="0.001" linear_acceleration="0.01"/>
+      <ros_publisher topic="/catamaran_usv/imu"/>
+    </sensor>
+    
+    <sensor name="odometry" type="odometry" rate="50.0">
+      <link name="base_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <ros_publisher topic="/catamaran_usv/odom"/>
+    </sensor>
+  </robot>
+</scenario>
