@@ -1,10 +1,10 @@
 ```markdown
-# EcoUSV: Edge AI & Reinforcement Learning Powered Autonomous Surface Vehicle for Aquatic Waste Collection
+# EcoASV: Edge AI & Reinforcement Learning Powered Autonomous Surface Vehicle for Aquatic Waste Collection
 
 An autonomous, intelligent, and highly robust Cyber-Physical System (CPS) designed for real-time aquatic plastic waste monitoring and automated collection in urban inland waterways.
 
 ## 🚀 Project Overview
-EcoUSV is an autonomous surface vehicle (USV/ASV) featuring a catamaran hull design. The system eliminates cloud dependencies by executing high-level computer vision and dynamic path-planning entirely on the edge. It combines deep-learning-based perception with Reinforcement Learning (RL) control to adaptively navigate and collect surface waste under dynamic aquatic disturbances (e.g., water currents, wind tethers).
+EcoASV is an autonomous surface vehicle featuring a catamaran hull design. The system eliminates cloud dependencies by executing high-level computer vision and dynamic path-planning entirely on the edge. It combines deep-learning-based perception with Reinforcement Learning (RL) control to adaptively navigate and collect surface waste under dynamic aquatic disturbances (e.g., water currents, wind tethers).
 
 ## 🛠️ Key Features
 * **Edge AI Perception:** Real-time object detection using a customized **YOLO26n** model optimized for edge NPU hardware (Quantized to INT8, achieving 30-50 FPS with ~20ms latency).
